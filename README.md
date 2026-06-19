@@ -1,97 +1,289 @@
 # CATR — Career Advisory Team for Pakistani Students
 
-CATR is a Band-powered multi-agent career guidance system designed for Pakistani students who need clear academic and career direction before choosing subjects, degrees, and future pathways.
+CATR is a Band-powered multi-agent career guidance system designed for Pakistani students and parents who need clearer academic and career planning before choosing subjects, degrees, and future pathways.
+
+It demonstrates a real multi-agent workflow where specialized agents collaborate through Band by sharing structured context, handing off tasks, reviewing outputs, and making a final decision.
+
+---
 
 ## Problem
 
-Many students in Pakistan choose academic tracks without understanding:
+Many students in Pakistan choose academic tracks without fully understanding:
 
-* which subjects fit their interests
+* which subjects fit their interests and strengths
 * which degrees lead to their dream careers
 * which entry exams they need to prepare for
 * which universities are relevant
-* what skills they should start building early
-* what career and salary path may look like in the future
+* which technical and soft skills they should build early
+* what the career and salary path may look like
 
-This often leads to confusion, late career switching, and poor academic planning.
+This often leads to confusion, late career switching, weak planning, and pressure on both students and parents.
+
+---
 
 ## Solution
 
-CATR uses a collaborative multi-agent workflow through Band. Instead of one chatbot giving generic advice, three specialized agents work together:
+CATR uses a collaborative agent workflow through Band.
+
+Instead of one chatbot giving generic advice, CATR uses four specialized agents:
 
 1. **Assessment Agent**
-   Extracts the student's profile from raw input.
+
+   * Reads the raw student profile.
+   * Extracts structured student information.
+   * Hands off the profile to the Career Mapper Agent.
 
 2. **Career Mapper Agent**
-   Maps the student's interests, strengths, and dream job to the best career tracks.
+
+   * Reviews student interests, strengths, weak areas, and goals.
+   * Recommends a primary and alternative career track.
+   * Hands off the mapping to the Roadmap Planner Agent.
 
 3. **Roadmap Planner Agent**
-   Creates a Pakistan-specific academic and career roadmap.
+
+   * Builds a Pakistan-specific academic and career roadmap.
+   * Includes subject choices, intermediate pathway, degree options, entry exams, universities, skills, certifications, and next steps.
+   * Hands off the draft roadmap to the Review & Decision Agent.
+
+4. **Review & Decision Agent**
+
+   * Reviews the roadmap for quality, realism, Pakistan relevance, age-appropriate advice, parent/student readability, and responsible salary guidance.
+   * Produces a final reviewed roadmap with a quality scorecard and final decision.
+
+---
 
 ## Band Multi-Agent Workflow
 
-The agents collaborate through Band using visible handoffs:
+CATR uses Band as the actual collaboration layer.
+
+The agents do not work as one hidden prompt. They communicate visibly through Band handoffs:
 
 ```text
 Assessment Agent
 → Career Mapper Agent
 → Roadmap Planner Agent
-→ Final CATR Roadmap
+→ Review & Decision Agent
+→ Final Reviewed Roadmap
 ```
 
-Each agent receives context from the previous agent and passes structured output to the next agent inside the Band chat environment.
+Example handoff markers:
+
+```text
+[HANDOFF:ASSESSMENT_TO_MAPPER]
+[HANDOFF:MAPPER_TO_PLANNER]
+[HANDOFF:PLANNER_TO_REVIEWER]
+[FINAL REVIEWED CATR ROADMAP]
+```
+
+This makes the collaboration visible, structured, and central to the workflow.
+
+---
+
+## Why This Fits the Hackathon
+
+The challenge asks for a cross-framework multi-agent system where at least three agents collaborate through Band across planning, execution, review, decision-making, or handoff.
+
+CATR demonstrates:
+
+* **Minimum 3 agents:** CATR uses 4 agents.
+* **Meaningful Band usage:** Agents hand off structured context through Band.
+* **Planning:** Roadmap Planner Agent creates the academic and career plan.
+* **Execution:** Assessment and Career Mapper Agents process the student profile.
+* **Review:** Review & Decision Agent checks roadmap quality.
+* **Decision-making:** Final agent approves or flags the roadmap before delivery.
+* **Real-world use case:** Career guidance for students and parents in Pakistan.
+
+---
+
+## React Frontend
+
+The project also includes a React frontend that presents the product experience.
+
+The frontend shows:
+
+* CATR overview
+* sample student profile
+* four-agent workflow
+* Band handoff flow
+* final reviewed roadmap
+* quality review scorecard
+* next 7 days action plan
+
+The React frontend is for presentation and product demo polish.
+
+The live multi-agent collaboration happens inside Band.
+
+---
 
 ## Tech Stack
 
 * Band Remote Agents
-* Python
 * Band SDK
+* Python
 * LangGraph Adapter
 * Featherless API
 * Qwen model
-* dotenv for local secrets
+* React
+* Vite
+* dotenv
 
-## Demo Flow
+---
 
-1. User enters a student profile in Band chat.
-2. Assessment Agent extracts a structured student profile.
-3. Career Mapper Agent recommends two suitable career tracks.
-4. Roadmap Planner Agent generates a complete Pakistan-specific roadmap.
-5. Final roadmap includes subjects, degrees, universities, exams, skills, salary ranges, and advice for parents/students.
-
-## Example Input
+## Project Structure
 
 ```text
-Student:
-Name: Ahmad
-Age: 15
-Interests: computers, maths, business
-Strong subjects: maths, computer science
-Dream job: software engineer and entrepreneur
+band_remote_agents/
+│
+├── agent_runner.py          # Runs the 4 Band remote agents
+├── test_provider.py         # Tests Featherless provider connection
+├── README.md                # Main project documentation
+├── pyproject.toml
+├── uv.lock
+├── .gitignore
+│
+├── frontend/                # React demo frontend
+│   ├── src/
+│   │   ├── App.jsx
+│   │   ├── App.css
+│   │   └── index.css
+│   ├── package.json
+│   └── vite.config.js
+│
+├── .env                    # Local only, not pushed
+└── agent_config.yaml        # Local only, not pushed
 ```
 
-## Example Output
+---
 
-The system generates:
+## Example Student Input
 
-* recommended career path
-* alternative career path
-* matric and intermediate subject guidance
-* degree options
-* Pakistan entry exams
-* recommended universities
-* certifications and skills
-* 1-year action plan
-* salary range in PKR
-* final advice for student and parents
+```text
+Student profile:
+Name: Hasan
+Age: 14
+Country: Pakistan
+Interests: computers, maths, business
+Strong subjects: mathematics, computer science
+Weak subjects: chemistry
+Dream job: software engineer and entrepreneur
+Parent expectation: stable career with good income
+```
+
+---
+
+## Example Final Output
+
+The final Review & Decision Agent produces:
+
+* quality review scorecard
+* final decision
+* approved roadmap
+* academic pathway
+* skill roadmap
+* next 7 days action plan
+* disclaimer
+
+Example scorecard:
+
+```text
+Quality Review Scorecard:
+- Student-career fit: 9/10
+- Pakistan relevance: 9/10
+- Academic pathway clarity: 9/10
+- Parent/student readability: 9/10
+- Risk level: Low
+- Final decision: APPROVED
+```
+
+---
+
+## Running the Band Agents
+
+Create a local `.env` file:
+
+```text
+BAND_REST_URL=https://app.band.ai/
+BAND_WS_URL=wss://app.band.ai/api/v1/socket/websocket
+FEATHERLESS_API_KEY=your_featherless_key
+FEATHERLESS_BASE_URL=https://api.featherless.ai/v1
+FEATHERLESS_MODEL=your_model_name
+```
+
+Create a local `agent_config.yaml` file:
+
+```yaml
+assessment:
+  agent_id: "your_assessment_agent_uuid"
+  api_key: "your_assessment_band_key"
+
+mapper:
+  agent_id: "your_mapper_agent_uuid"
+  api_key: "your_mapper_band_key"
+
+planner:
+  agent_id: "your_planner_agent_uuid"
+  api_key: "your_planner_band_key"
+
+reviewer:
+  agent_id: "your_reviewer_agent_uuid"
+  api_key: "your_reviewer_band_key"
+```
+
+Install dependencies and run:
+
+```bash
+uv run python agent_runner.py
+```
+
+---
+
+## Running the React Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open the local Vite URL shown in the terminal.
+
+---
 
 ## Security
 
-API keys are stored locally in:
+The following files are excluded from GitHub:
 
 ```text
 .env
 agent_config.yaml
+.venv/
 ```
 
-These files are excluded from GitHub using `.gitignore`.
+API keys and Band agent keys should never be pushed to GitHub.
+
+---
+
+## Future Work
+
+Possible future improvements:
+
+* Schedule Planner Agent to convert the roadmap into weekly study plans.
+* Calendar reminder integration.
+* Parent/teacher review dashboard.
+* University admission data integration.
+* Student progress tracking.
+* PDF export of the final roadmap.
+
+---
+
+## Demo Summary
+
+CATR shows how Band can be used as the core collaboration layer for a real decision workflow.
+
+The project combines:
+
+```text
+assessment → mapping → planning → review → final decision
+```
+
+This makes the system more than a chatbot. It is a structured multi-agent workflow for student career guidance.
