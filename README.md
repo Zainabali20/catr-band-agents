@@ -1,54 +1,57 @@
-# CATR — Career Advisory Team for Pakistani Students
+# CATR — Career Advisory Team with Band
 
-CATR is a Band-powered multi-agent career guidance system designed for Pakistani students and parents who need clearer academic and career planning before choosing subjects, degrees, and future pathways.
+CATR is a Pakistan-first, globally adaptable multi-agent career guidance system for students, parents, schools, and education organizations.
 
-It demonstrates a real multi-agent workflow where specialized agents collaborate through Band by sharing structured context, handing off tasks, reviewing outputs, and making a final decision.
+It uses Band as the core collaboration layer where specialized agents assess a student profile, map suitable career paths, create an academic roadmap, review the plan, and approve the final recommendation.
+
+Live Demo: https://catr-band-agents.netlify.app/
+
+---
+
+## Copyright and Usage Notice
+
+© 2026 Zainab Ali. All rights reserved.
+
+This repository is shared as a hackathon demonstration of the CATR multi-agent workflow. The source code, written content, workflow design, product presentation, and project concept are not licensed for commercial reuse, redistribution, copying, or derivative product development without written permission from the author.
+
+This public repository is intended for judging, demonstration, and portfolio review only.
 
 ---
 
 ## Problem
 
-Many students in Pakistan choose academic tracks without fully understanding:
+Students in many countries, especially in emerging markets, often make academic and career decisions without structured guidance.
 
-* which subjects fit their interests and strengths
-* which degrees lead to their dream careers
-* which entry exams they need to prepare for
-* which universities are relevant
-* which technical and soft skills they should build early
-* what the career and salary path may look like
+They may choose subjects, degrees, universities, or career paths without clearly understanding:
 
-This often leads to confusion, late career switching, weak planning, and pressure on both students and parents.
+* which subjects match their strengths and interests
+* which academic tracks lead to which careers
+* which degrees and entry exams are required
+* which skills they should start building early
+* what career outcomes and salary paths may look like
+* how parents, teachers, and institutions can support better planning
+
+CATR is Pakistan-first because the demo focuses on Pakistan-specific subject choices, university pathways, and career planning. However, the same workflow can be adapted for other countries by changing local education rules, admission data, university pathways, and labor market information.
 
 ---
 
 ## Solution
 
-CATR uses a collaborative agent workflow through Band.
+CATR turns career guidance into a structured multi-agent decision workflow.
 
-Instead of one chatbot giving generic advice, CATR uses four specialized agents:
+Instead of one chatbot giving generic advice, CATR uses four specialized Band agents:
 
-1. **Assessment Agent**
+1. Assessment Agent
+   Extracts the student profile from raw input.
 
-   * Reads the raw student profile.
-   * Extracts structured student information.
-   * Hands off the profile to the Career Mapper Agent.
+2. Career Mapper Agent
+   Maps interests, strengths, and goals to suitable career tracks.
 
-2. **Career Mapper Agent**
+3. Roadmap Planner Agent
+   Creates a Pakistan-specific academic and career roadmap.
 
-   * Reviews student interests, strengths, weak areas, and goals.
-   * Recommends a primary and alternative career track.
-   * Hands off the mapping to the Roadmap Planner Agent.
-
-3. **Roadmap Planner Agent**
-
-   * Builds a Pakistan-specific academic and career roadmap.
-   * Includes subject choices, intermediate pathway, degree options, entry exams, universities, skills, certifications, and next steps.
-   * Hands off the draft roadmap to the Review & Decision Agent.
-
-4. **Review & Decision Agent**
-
-   * Reviews the roadmap for quality, realism, Pakistan relevance, age-appropriate advice, parent/student readability, and responsible salary guidance.
-   * Produces a final reviewed roadmap with a quality scorecard and final decision.
+4. Review & Decision Agent
+   Reviews the roadmap for quality, realism, risk, clarity, and responsible guidance before approving the final output.
 
 ---
 
@@ -56,7 +59,9 @@ Instead of one chatbot giving generic advice, CATR uses four specialized agents:
 
 CATR uses Band as the actual collaboration layer.
 
-The agents do not work as one hidden prompt. They communicate visibly through Band handoffs:
+The agents do not run as one hidden prompt. They communicate through visible Band handoffs and pass structured context from one stage to the next.
+
+Workflow:
 
 ```text
 Assessment Agent
@@ -66,7 +71,7 @@ Assessment Agent
 → Final Reviewed Roadmap
 ```
 
-Example handoff markers:
+Handoff markers used in the Band workflow:
 
 ```text
 [HANDOFF:ASSESSMENT_TO_MAPPER]
@@ -75,31 +80,39 @@ Example handoff markers:
 [FINAL REVIEWED CATR ROADMAP]
 ```
 
-This makes the collaboration visible, structured, and central to the workflow.
+This demonstrates planning, execution, review, decision-making, and task handoff through Band.
 
 ---
 
 ## Why This Fits the Hackathon
 
-The challenge asks for a cross-framework multi-agent system where at least three agents collaborate through Band across planning, execution, review, decision-making, or handoff.
+The challenge asks for a cross-framework multi-agent system where at least three agents collaborate through Band across planning, execution, review, decision-making, or task handoff.
 
 CATR demonstrates:
 
-* **Minimum 3 agents:** CATR uses 4 agents.
-* **Meaningful Band usage:** Agents hand off structured context through Band.
-* **Planning:** Roadmap Planner Agent creates the academic and career plan.
-* **Execution:** Assessment and Career Mapper Agents process the student profile.
-* **Review:** Review & Decision Agent checks roadmap quality.
-* **Decision-making:** Final agent approves or flags the roadmap before delivery.
-* **Real-world use case:** Career guidance for students and parents in Pakistan.
+* 4 collaborating Band remote agents
+* structured context sharing
+* visible agent-to-agent handoffs
+* planning through the Roadmap Planner Agent
+* review and quality control through the Review & Decision Agent
+* final decision-making before the roadmap is delivered
+* a real education and career planning use case
+
+CATR is not a simple chatbot. It is a coordinated multi-agent decision workflow.
 
 ---
 
 ## React Frontend
 
-The project also includes a React frontend that presents the product experience.
+The project includes a React frontend deployed on Netlify.
 
-The frontend shows:
+Live Demo:
+
+```text
+https://catr-band-agents.netlify.app/
+```
+
+The frontend presents the product experience:
 
 * CATR overview
 * sample student profile
@@ -109,9 +122,8 @@ The frontend shows:
 * quality review scorecard
 * next 7 days action plan
 
-The React frontend is for presentation and product demo polish.
-
-The live multi-agent collaboration happens inside Band.
+The React frontend is for presentation and product experience.
+The actual multi-agent collaboration happens live inside Band.
 
 ---
 
@@ -125,7 +137,8 @@ The live multi-agent collaboration happens inside Band.
 * Qwen model
 * React
 * Vite
-* dotenv
+* Netlify
+* GitHub
 
 ---
 
@@ -137,6 +150,7 @@ band_remote_agents/
 ├── agent_runner.py          # Runs the 4 Band remote agents
 ├── test_provider.py         # Tests Featherless provider connection
 ├── README.md                # Main project documentation
+├── netlify.toml             # Netlify deployment settings
 ├── pyproject.toml
 ├── uv.lock
 ├── .gitignore
@@ -149,8 +163,8 @@ band_remote_agents/
 │   ├── package.json
 │   └── vite.config.js
 │
-├── .env                    # Local only, not pushed
-└── agent_config.yaml        # Local only, not pushed
+├── .env                     # Local only, not pushed
+└── agent_config.yaml         # Local only, not pushed
 ```
 
 ---
@@ -173,7 +187,7 @@ Parent expectation: stable career with good income
 
 ## Example Final Output
 
-The final Review & Decision Agent produces:
+The Review & Decision Agent produces:
 
 * quality review scorecard
 * final decision
@@ -197,7 +211,7 @@ Quality Review Scorecard:
 
 ---
 
-## Running the Band Agents
+## Running the Band Agents Locally
 
 Create a local `.env` file:
 
@@ -229,7 +243,7 @@ reviewer:
   api_key: "your_reviewer_band_key"
 ```
 
-Install dependencies and run:
+Run:
 
 ```bash
 uv run python agent_runner.py
@@ -237,7 +251,7 @@ uv run python agent_runner.py
 
 ---
 
-## Running the React Frontend
+## Running the React Frontend Locally
 
 ```bash
 cd frontend
@@ -245,7 +259,19 @@ npm install
 npm run dev
 ```
 
-Open the local Vite URL shown in the terminal.
+---
+
+## Deployment
+
+The React frontend is deployed on Netlify.
+
+Netlify settings:
+
+```text
+Base directory: frontend
+Build command: npm run build
+Publish directory: dist
+```
 
 ---
 
@@ -259,31 +285,31 @@ agent_config.yaml
 .venv/
 ```
 
-API keys and Band agent keys should never be pushed to GitHub.
+API keys, Band agent keys, and provider keys should never be pushed to GitHub.
 
 ---
 
 ## Future Work
 
-Possible future improvements:
+Planned future improvements include:
 
-* Schedule Planner Agent to convert the roadmap into weekly study plans.
-* Calendar reminder integration.
-* Parent/teacher review dashboard.
-* University admission data integration.
-* Student progress tracking.
-* PDF export of the final roadmap.
+* Schedule Planner Agent for weekly study plans
+* calendar-based study reminders
+* parent and teacher review dashboard
+* student progress tracking
+* school and government education-sector dashboard
+* localized university admission data
+* PDF export of final career roadmaps
+* expansion beyond Pakistan into other emerging education markets
 
 ---
 
 ## Demo Summary
 
-CATR shows how Band can be used as the core collaboration layer for a real decision workflow.
-
-The project combines:
+CATR shows how Band can coordinate a real multi-agent decision workflow:
 
 ```text
 assessment → mapping → planning → review → final decision
 ```
 
-This makes the system more than a chatbot. It is a structured multi-agent workflow for student career guidance.
+The system is designed as a Pakistan-first, globally adaptable career guidance workflow for students, parents, schools, and education organizations.
