@@ -1,0 +1,15 @@
+assessment:
+  agent_id: "your_assessment_agent_uuid"
+  api_key: "your_assessment_band_key"
+
+mapper:
+  agent_id: "your_mapper_agent_uuid"
+  api_key: "your_mapper_band_key"
+
+planner:
+  agent_id: "your_planner_agent_uuid"
+  api_key: "your_planner_band_key"
+
+reviewer:
+  agent_id: "your_reviewer_agent_uuid"
+  api_key: "your_reviewer_band_key"
